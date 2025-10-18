@@ -85,3 +85,107 @@ export default defineConfig({
 ```
 
 ### Enviroment variables
+
+- Must start with pefix 'VITE\_'
+- You can define prefix in config file
+- You can create .env.production file
+
+```sh
+VITE_LANG=it
+VITE_CLIENT=http://127.0.0.1:3000/
+```
+
+```js
+console.log(import.meta.env);
+```
+
+### Mulptiple routes
+
+```js
+import { defineConfig } from "vite";
+import { resolve } from "path";
+
+export default defineConfig({
+  build: {
+    minify: false,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        admin: resolve(__dirname, "admin/index.html"),
+      },
+    },
+  },
+  envPrefix: "COOL_APP_",
+});
+```
+
+### Creating multiple bundles
+
+Chunking
+
+```js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+function manualChunks(id: string) {
+  if (id.includes("node_modules")) {
+    return "vendor";
+  }
+  return "main";
+}
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks,
+      },
+    },
+  },
+});
+```
+
+### Vite plugins
+
+[Doc](https://vite.dev/plugins/)
+
+```sh
+pnpm add vite-plugin-remove-console -D
+```
+
+```js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import removeConsole from "vite-plugin-remove-console";
+
+function manualChunks(id: string) {
+  if (id.includes("node_modules")) {
+    return "vendor";
+  }
+  return "main";
+}
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), removeConsole()],
+  server: {
+    port: 3000,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks,
+      },
+    },
+  },
+});
+```
+
+## Building a library
+
+### Library mode
