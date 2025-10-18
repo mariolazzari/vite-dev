@@ -57,3 +57,31 @@ Dead code is removed
 - do not embed embet functions in objects (not detected by bundlers)
 
 ## Working with Vite
+
+### Hot modules reloading
+
+Hot module replacement (HMR): adds or removes modules while application is running, without a full reload.
+
+### Handling assets
+
+- imports images directly as other files
+- imports imagese from public folder, without public prefix
+
+### Configuring Vite
+
+[Doc](https://vite.dev/config/)
+
+```js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+  },
+});
+```
+
+### Enviroment variables
