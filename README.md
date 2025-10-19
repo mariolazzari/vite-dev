@@ -189,3 +189,58 @@ export default defineConfig({
 ## Building a library
 
 ### Library mode
+
+```js
+import { defineConfig } from "vite";
+import { resolve } from "node:path";
+
+export default defineConfig({
+  build: {
+    lib: {
+      entry: resolve(__dirname, "src", "index.ts"),
+      name: "coolMath",
+      formats: ["es"],
+    },
+    minify: false,
+    rollupOptions: {
+      external: ["uuid"],
+    },
+  },
+});
+```
+
+### Optimize export
+
+[Docs](https://vite.dev/guide/build)
+
+```json
+{
+  "name": "cool-math",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "module": "./dist/cool-math.js",
+  "exports": {
+    ".": {
+      "import": "./dist/cool-math.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/uuid": "^10.0.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
+}
+```
