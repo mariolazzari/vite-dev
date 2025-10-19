@@ -244,3 +244,95 @@ export default defineConfig({
   }
 }
 ```
+
+### Adding types
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    // "noEmit": true,
+
+    // Emit types:
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+```
+
+```json
+{
+  "name": "cool-math",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "module": "./dist/cool-math.js",
+  "exports": {
+    ".": {
+      "import": "./dist/cool-math.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/uuid": "^10.0.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
+}
+```
+
+### Bundle optimization
+
+```ts
+import { defineConfig } from "vite";
+import { resolve } from "node:path";
+
+export default defineConfig({
+  build: {
+    lib: {
+      entry: resolve(__dirname, "src", "index.ts"),
+      name: "coolMath",
+      formats: ["es"],
+    },
+    minify: false,
+    rollupOptions: {
+      external: ["uuid"],
+    },
+  },
+});
+```
+
+## Vite feature
+
+### Linting
