@@ -388,3 +388,52 @@ npx vite-bundle-visualizer
 ```
 
 ### Glob imports
+
+```tsx
+const images = import.meta.glob<{ default: string }>("../assets/London/*.jpg", {
+  eager: true,
+});
+
+// console.log(images);
+
+export function ImagesList() {
+  return (
+    <div>
+      <h3>Images: </h3>
+      <br />
+      {Object.values(images).map(path => (
+        <img src={path.default} key={path.default} width="400" />
+      ))}
+    </div>
+  );
+}
+```
+
+### Handling CSS
+
+```tsx
+import { setupCounter } from './counter.js'
+import { average, randomUUID } from 'cool-math'
+
+import './assets/1.css'
+import './assets/2.css'
+import colors from './assets/3.module.css'
+
+console.log(colors)
+
+document.querySelector('#app').innerHTML = `
+  <div>
+    <a href="https://vite.dev" target="_blank">
+@@ -28,6 +34,7 @@ document.querySelector('#app').innerHTML = `
+    <div class="card">
+      <button id="counter" type="button"></button>
+    </div>
+    <p class=${colors.} > This is colored by modules</p>
+    <p class="read-the-docs">
+      Click on the Vite logo to learn more
+    </p>
+```
+
+### Vitest first contact
+
+### Vitest and React
